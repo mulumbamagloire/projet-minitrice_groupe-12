@@ -5,6 +5,7 @@
 # Fait les 4 opérations de base : +, -, *, /
 
 def evaluer_expression(expression):
+    
     """Évalue une expression simple du type : nombre opérateur nombre"""
     
     # On sépare les éléments par des espaces
