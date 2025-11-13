@@ -1,18 +1,12 @@
 # Créer minitrice
 #!/usr/bin/env python3
-"""
-Minitrice - Programme de calcul arithmétique
-Réalise les 4 opérations de base entre deux nombres positifs
-"""
+
 
 import sys
 import re
 
 def evaluer_expression(expression):
-    """
-    Évalue une expression arithmétique simple
-    Format: nombre opérateur nombre
-    """
+    
     # Nettoyer l'expression
     expression = expression.strip()
     
