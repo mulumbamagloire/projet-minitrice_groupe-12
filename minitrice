@@ -1,4 +1,5 @@
 # Créer minitrice
+#!/usr/bin/env python3
 """
 Minitrice - Programme de calcul arithmétique
 Réalise les 4 opérations de base entre deux nombres positifs
