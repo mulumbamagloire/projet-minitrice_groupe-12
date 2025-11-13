@@ -1,102 +1,67 @@
 # Créer minitrice
 #!/usr/bin/env python3
 
-
-import sys
-import re
+# Minitrice - calculatrice simple
+# Fait les 4 opérations de base : +, -, *, /
 
 def evaluer_expression(expression):
+    """Évalue une expression simple du type : nombre opérateur nombre"""
     
-    # Nettoyer l'expression
-    expression = expression.strip()
-    
-    # Vérifier si l'expression est vide
-    if not expression:
-        return None, "Expression vide"
-    
-    # Regex pour capturer: nombre1, opérateur, nombre2
-    pattern = r'^\s*(\d+\.?\d*)\s*([+\-*/])\s*(\d+\.?\d*)\s*$'
-    match = re.match(pattern, expression)
-    
-    if not match:
-        return None, f"Erreur de syntaxe pour le calcul: \"{expression}\""
-    
-    nombre1_str, operateur, nombre2_str = match.groups()
-    
-    try:
-        nombre1 = float(nombre1_str)
-        nombre2 = float(nombre2_str)
-    except ValueError:
-        return None, f"Erreur de syntaxe pour le calcul: \"{expression}\""
-    
-    # Vérifier que les nombres sont positifs
-    if nombre1 < 0 or nombre2 < 0:
-        return None, f"Erreur: les nombres doivent être positifs"
-    
-    # Effectuer l'opération
-    try:
-        if operateur == '+':
-            resultat = nombre1 + nombre2
-        elif operateur == '-':
-            resultat = nombre1 - nombre2
-        elif operateur == '*':
-            resultat = nombre1 * nombre2
-        elif operateur == '/':
-            if nombre2 == 0:
-                return None, "Division par zéro"
-            resultat = nombre1 / nombre2
-        else:
-            return None, f"Opérateur non reconnu: {operateur}"
-    except Exception as e:
-        return None, f"Erreur lors du calcul: {str(e)}"
-    
-    # Formater le résultat
-    if resultat == int(resultat):
-        return int(resultat), None
+    # On sépare les éléments par des espaces
+    elements = expression.split()
+
+    # Vérifie qu’il y a bien 3 éléments : ex. "5 + 2"
+    if len(elements) != 3:
+        return "Erreur : format attendu -> nombre opérateur nombre"
+
+    # On récupère les valeurs
+    nombre1 = elements[0]
+    operateur = elements[1]
+    nombre2 = elements[2]
+
+    # Vérifie que les deux nombres sont positifs
+    if not nombre1.isdigit() or not nombre2.isdigit():
+        return "Erreur : veuillez entrer des nombres positifs"
+
+    nombre1 = float(nombre1)
+    nombre2 = float(nombre2)
+
+    # Calcule selon l’opérateur
+    if operateur == '+':
+        resultat = nombre1 + nombre2
+    elif operateur == '-':
+        resultat = nombre1 - nombre2
+    elif operateur == '*':
+        resultat = nombre1 * nombre2
+    elif operateur == '/':
+        if nombre2 == 0:
+            return "Erreur : division par zéro"
+        resultat = nombre1 / nombre2
     else:
-        return round(resultat, 2), None
+        return "Erreur : opérateur inconnu"
+
+    # Si le résultat est un entier, on l’affiche sans décimales
+    if resultat == int(resultat):
+        resultat = int(resultat)
+
+    return resultat
+
 
 def main():
-    """Fonction principale"""
-    # Mode interactif si stdin est un terminal
-    if sys.stdin.isatty():
-        print("Minitrice - Calculateur interactif")
-        print("Entrez vos calculs (format: nombre opérateur nombre)")
-        print("Ctrl+D pour quitter")
-        
-        try:
-            while True:
-                try:
-                    expression = input("> ")
-                    resultat, erreur = evaluer_expression(expression)
-                    
-                    if erreur:
-                        print(erreur)
-                    else:
-                        print(resultat)
-                        
-                except EOFError:
-                    print("\nFin des calculs")
-                    break
-                except KeyboardInterrupt:
-                    print("\nFin des calculs")
-                    break
-                    
-        except Exception as e:
-            print(f"Erreur: {e}")
-            sys.exit(1)
-            
-    else:
-        # Mode lecture depuis stdin
-        for ligne in sys.stdin:
-            ligne = ligne.strip()
-            if ligne:  # Ignorer les lignes vides
-                resultat, erreur = evaluer_expression(ligne)
-                if erreur:
-                    print(erreur)
-                    sys.exit(1)
-                else:
-                    print(resultat)
+    print("=== Minitrice ===")
+    print("Entrez une opération (exemple : 4 * 2)")
+    print("Tapez 'exit' pour quitter")
+
+    while True:
+        expression = input("> ")
+
+        if expression.lower() == "exit":
+            print("Fin du programme.")
+            break
+
+        resultat = evaluer_expression(expression)
+        print(resultat)
+
 
 if __name__ == "__main__":
     main()
