@@ -1,4 +1,5 @@
 # Créer generator
+#!/usr/bin/env python3
 """
 Générateur d'expressions arithmétiques aléatoires
 """
